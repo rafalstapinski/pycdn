@@ -26,7 +26,7 @@ async def get_resource(image_url: str):
             image = pil_open(BytesIO(response.content))
             image = image.convert("RGB")
             buffer = BytesIO()
-            image.save(buffer, format="jpeg", quality=95)
+            image.save(buffer, format="jpeg", quality=80)
 
             MEMORY[image_url] = buffer
 
