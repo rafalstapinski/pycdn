@@ -3,7 +3,6 @@ from io import BytesIO
 import httpx
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
-from PIL.Image import Image as PILImage
 from PIL.Image import open as pil_open
 
 app = FastAPI()
@@ -15,13 +14,13 @@ MEMORY: dict[str, BytesIO] = {}
 async def get_resource(image_url: str):
 
     if image_url in MEMORY:
-        print("GOT CACHE")
         buffer = MEMORY[image_url]
 
     else:
-        print("GOT NETWORK")
         async with httpx.AsyncClient() as client:
             response = await client.get(image_url)
+
+            print(len(response.content))
 
             image = pil_open(BytesIO(response.content))
             image = image.convert("RGB")
